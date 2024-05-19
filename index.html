@@ -12,14 +12,24 @@
             margin: 0 auto;
             background-color: orange;
             display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
         }
+
+        /* 測試: 如果頁面所使用CSS設定是否會影響customElements的樣式? */
+        /* 結果: 不會影響 */
+        p {
+            color: red;
+        }
     </style>
+
+    <script src="./main.js" defer></script>
 </head>
 <body>
     <div class="container">
         <p>原定義標籤</p>
+        <custom-modal data-text="卡片標題"></custom-modal>
     </div>
 </body>
 </html>
