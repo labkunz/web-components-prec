@@ -21,6 +21,9 @@
     justify-self: center;
     background-color: #fff;
 }
+.closeBtn:hover {
+    cursor: pointer;
+}
 
 .header {
     width: 100%;
