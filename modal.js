@@ -62,9 +62,14 @@ class PopupInfo extends HTMLElement {
     }
 
     closeCard (entry) {
-        let target = entry.shadowRoot.querySelector(".panel");
+        // 改使用jQuery的寫法
 
-        target.style.display = "none";
+        // let target = entry.shadowRoot.querySelector(".panel");
+        let target = $(entry.shadowRoot).find(".panel");
+        console.log(target);
+
+        // target.style.display = "none";
+        target.hide();
     }
 }
 
