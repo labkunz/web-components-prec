@@ -8,6 +8,7 @@ class PopupInfo extends HTMLElement {
     connectedCallback () {
         // 建立 shadow root
         const shadow = this.attachShadow({ mode: "open" });  //js可以造訪
+        //設定無法造訪: closed
 
         // 建立 所需元素
         const card = document.createElement("div");
@@ -27,38 +28,13 @@ class PopupInfo extends HTMLElement {
         cardHeader.appendChild(text);
         card.appendChild(cardHeader);
 
-        // 建立 CSS 樣式
-        const style = document.createElement("style");
-
-        style.textContent = `
-            .panel {
-                position: relative;
-                width: 300px;
-                height: 300px;
-                padding: 16px;
-                background-color: #fff;
-                border: 1px solid gray;
-                border-radius: 8px;
-                display: flex;
-                flex-direction: column;
-                align-items: flex-start;
-                justify-content: flex-start;
-            }
-
-            .header {
-                width: 100%;
-                border-bottom: 1px solid;
-            }
-
-            .title {
-                margin: 0;
-                font-weight: bold;
-                font-size: 24px;
-            }
-        `;
+        // 替換使用外部樣式
+        const linkEle = document.createElement("link");
+        linkEle.setAttribute("rel", "stylesheet");
+        linkEle.setAttribute("href", "./style.css")
 
         // 把相關元素加入至 shadow DOM
-        shadow.appendChild(style);
+        shadow.appendChild(linkEle);
         shadow.appendChild(card);
     }
 }
