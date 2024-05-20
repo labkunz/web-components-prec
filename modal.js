@@ -17,6 +17,11 @@ class PopupInfo extends HTMLElement {
         // 把相關元素加入至 shadow DOM
         shadow.appendChild(linkEle);
         shadow.appendChild(card);
+
+        this.shadowRoot.querySelector(".closeBtn").addEventListener("click", () => {
+            let entry = this;
+            this.closeCard(entry);
+        });
     }
 
     createLink () {
@@ -56,9 +61,8 @@ class PopupInfo extends HTMLElement {
         return card;
     }
 
-    closeCard () {
-        let root = document.querySelector("custom-modal");
-        let target = root.querySelector(".panel");
+    closeCard (entry) {
+        let target = entry.shadowRoot.querySelector(".panel");
 
         target.style.display = "none";
     }
