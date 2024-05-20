@@ -57,6 +57,19 @@ class PopupInfo extends HTMLElement {
         const text = document.createElement("p");
         text.setAttribute("class", "title");
 
+        // 呼叫API
+        // try {
+        //     const response = this.getSource();
+
+        //     console.log(`response`);
+        //     console.table(response.json());
+
+        // } catch (e) {
+        //     console.log(`Error: ${e}`);
+        // }
+        const response = this.getSource();
+        console.table(response);
+
         // 取得attribute content放入text裡面
         const textContent = this.getAttribute("data-text");
         text.textContent = textContent;
@@ -80,9 +93,50 @@ class PopupInfo extends HTMLElement {
         target.hide();
     }
 
-    // importJQ (entry) {
+    async getSource() {
+        let url = "https://moon01slave.advividnetwork.com/api/crescent_give_api_slide_michael.php";
 
-    // }
+        let para = {
+            lang: "zh_TW",
+            web_id: "kk3c",
+            uuid: "ad5e4d2c-d10a-4f15-b6a8-c9406a4e385f",
+            type: "slide",
+            user_agent: "_",
+            client_href: "_",
+            os_type: 2,
+            browser_type: 4,
+            is_ios: 5,
+            ip: "_",
+            title: "_",
+            access_type: "interstitial",
+            access_number: 1,
+            domain_type: "interstitial_domain",
+            href: "kkplay3c.net",
+            language: "zh-tw",
+        }
+
+        const data = new URLSearchParams(para);
+
+        fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+            },
+            body: data,
+            mode: "no-cors"
+        }).then(function (response) {
+            // console.log(response)
+            if (response.ok) {
+                return response.json();
+            } else {
+                console.log("not ok...");
+                return "";
+            }
+        }).catch(function (error) {
+            console.log(`getSource() Error: ${error}`);
+            return "";
+        });
+    }
 }
 
 export default PopupInfo;
