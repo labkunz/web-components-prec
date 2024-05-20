@@ -44,6 +44,13 @@ class PopupInfo extends HTMLElement {
         shadow.appendChild(linkEle);
         shadow.appendChild(card);
     }
+
+    closeCard () {
+        let root = document.querySelector("custom-modal");
+        let target = root.querySelector(".panel");
+
+        target.style.display = "none";
+    }
 }
 
 export default PopupInfo;
