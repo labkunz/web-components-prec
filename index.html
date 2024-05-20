@@ -25,8 +25,17 @@
     </style>
 
     <!-- 測試: 是否可以引入jQuery然後在shadow DOM使用? -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script> -->
+
+    <!-- 測試: 是否可以在shadow DOM裡面引入jQuery使用所指定的版本？ -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+    <script>
+        console.log(`jQuery version in index.html: ${$().jquery}`);  // 確認目前版本
+    </script>
     <script src="./main.js" type="module"></script>
+    <script>
+        console.log(`jQuery version after main.js module: ${$().jquery}`);  // 確認目前版本
+    </script>
 </head>
 <body>
     <div class="container">

@@ -1,4 +1,5 @@
 import {closeIconHtml} from "./icon.js";
+import {importJQuery} from "./importJQuery.js";
 // 先繼承HTMLElement來擴充
 
 class PopupInfo extends HTMLElement {
@@ -6,7 +7,7 @@ class PopupInfo extends HTMLElement {
         super();
     }
 
-    connectedCallback () {
+    async connectedCallback () {
         // 建立 shadow root
         const shadow = this.attachShadow({ mode: "open" });  //js可以造訪
         //設定無法造訪: closed
@@ -18,10 +19,17 @@ class PopupInfo extends HTMLElement {
         shadow.appendChild(linkEle);
         shadow.appendChild(card);
 
-        this.shadowRoot.querySelector(".closeBtn").addEventListener("click", () => {
-            let entry = this;
-            this.closeCard(entry);
-        });
+        // 載入jQuery
+        let result = await importJQuery(this.shadowRoot);
+
+        if (result) {
+            console.log(`jQuery version: ${$().jquery}`);  // 確認目前版本
+
+            this.shadowRoot.querySelector(".closeBtn").addEventListener("click", () => {
+                let entry = this;
+                this.closeCard(entry);
+            });
+        }
     }
 
     createLink () {
@@ -71,6 +79,10 @@ class PopupInfo extends HTMLElement {
         // target.style.display = "none";
         target.hide();
     }
+
+    // importJQ (entry) {
+
+    // }
 }
 
 export default PopupInfo;
