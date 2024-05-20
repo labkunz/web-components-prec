@@ -11,6 +11,24 @@ class PopupInfo extends HTMLElement {
         const shadow = this.attachShadow({ mode: "open" });  //js可以造訪
         //設定無法造訪: closed
 
+        const linkEle = this.createLink();
+        const card = this.createPopup();
+
+        // 把相關元素加入至 shadow DOM
+        shadow.appendChild(linkEle);
+        shadow.appendChild(card);
+    }
+
+    createLink () {
+        // 替換使用外部樣式
+        const element = document.createElement("link");
+        element.setAttribute("rel", "stylesheet");
+        element.setAttribute("href", "./style.css");
+
+        return element;
+    }
+
+    createPopup () {
         // 建立 所需元素
         const card = document.createElement("div");
         card.setAttribute("class", "panel");
@@ -35,14 +53,7 @@ class PopupInfo extends HTMLElement {
         card.appendChild(cardHeader);
         card.appendChild(closeBtn);
 
-        // 替換使用外部樣式
-        const linkEle = document.createElement("link");
-        linkEle.setAttribute("rel", "stylesheet");
-        linkEle.setAttribute("href", "./style.css")
-
-        // 把相關元素加入至 shadow DOM
-        shadow.appendChild(linkEle);
-        shadow.appendChild(card);
+        return card;
     }
 
     closeCard () {
