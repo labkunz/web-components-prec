@@ -13,7 +13,7 @@ class PopupInfo extends HTMLElement {
         //設定無法造訪: closed
 
         const linkEle = this.createLink();
-        const card = this.createPopup();
+        const card = await this.createPopup();
 
         // 把相關元素加入至 shadow DOM
         shadow.appendChild(linkEle);
@@ -41,7 +41,7 @@ class PopupInfo extends HTMLElement {
         return element;
     }
 
-    createPopup () {
+    async createPopup () {
         // 建立 所需元素
         const card = document.createElement("div");
         card.setAttribute("class", "panel");
@@ -57,26 +57,24 @@ class PopupInfo extends HTMLElement {
         const text = document.createElement("p");
         text.setAttribute("class", "title");
 
+        const cardContent = document.createElement("div");
+        cardContent.setAttribute("class", "imageBlock");
+
         // 呼叫API
-        // try {
-        //     const response = this.getSource();
+        let data = await this.getSource();
 
-        //     console.log(`response`);
-        //     console.table(response.json());
-
-        // } catch (e) {
-        //     console.log(`Error: ${e}`);
-        // }
-        const response = this.getSource();
-        console.table(response);
+        const img = document.createElement("img");
+        img.src = data !== "" ? data.message : "";
 
         // 取得attribute content放入text裡面
         const textContent = this.getAttribute("data-text");
         text.textContent = textContent;
 
         // 組裝元素
+        cardContent.appendChild(img);
         cardHeader.appendChild(text);
         card.appendChild(cardHeader);
+        card.appendChild(cardContent);
         card.appendChild(closeBtn);
 
         return card;
@@ -94,48 +92,28 @@ class PopupInfo extends HTMLElement {
     }
 
     async getSource() {
-        let url = "https://moon01slave.advividnetwork.com/api/crescent_give_api_slide_michael.php";
+        let url = "https://dog.ceo/api/breeds/image/random";
 
-        let para = {
-            lang: "zh_TW",
-            web_id: "kk3c",
-            uuid: "ad5e4d2c-d10a-4f15-b6a8-c9406a4e385f",
-            type: "slide",
-            user_agent: "_",
-            client_href: "_",
-            os_type: 2,
-            browser_type: 4,
-            is_ios: 5,
-            ip: "_",
-            title: "_",
-            access_type: "interstitial",
-            access_number: 1,
-            domain_type: "interstitial_domain",
-            href: "kkplay3c.net",
-            language: "zh-tw",
-        }
+        let response = fetch(url);
 
-        const data = new URLSearchParams(para);
+        try {
+            const result = await response;
+            console.log(result);
 
-        fetch(url, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
-            },
-            body: data,
-            mode: "no-cors"
-        }).then(function (response) {
-            // console.log(response)
-            if (response.ok) {
-                return response.json();
+            if (result.ok) {
+                const source = await result.json();
+
+                // console.table(source);
+                return source;
             } else {
                 console.log("not ok...");
                 return "";
             }
-        }).catch(function (error) {
-            console.log(`getSource() Error: ${error}`);
+
+        } catch (error) {
+            console.log(error);
             return "";
-        });
+        }
     }
 }
 
