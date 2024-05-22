@@ -1,10 +1,12 @@
 import {closeIconHtml} from "./icon.js";
 import {importJQuery} from "./importJQuery.js";
 // 先繼承HTMLElement來擴充
+import CardContent from "./content.js";
 
 class PopupInfo extends HTMLElement {
     constructor () {
         super();
+        this.test = "dnf";
     }
 
     async connectedCallback () {
@@ -12,8 +14,12 @@ class PopupInfo extends HTMLElement {
         const shadow = this.attachShadow({ mode: "open" });  //js可以造訪
         //設定無法造訪: closed
 
+        console.log(this);
+        console.log(this.test);
+
         const linkEle = this.createLink();
         const card = await this.createPopup();
+        // const cardContent = new CardContent(this);
 
         // 把相關元素加入至 shadow DOM
         shadow.appendChild(linkEle);
@@ -41,7 +47,7 @@ class PopupInfo extends HTMLElement {
         return element;
     }
 
-    async createPopup () {
+    async createPopup (entry) {
         // 建立 所需元素
         const card = document.createElement("div");
         card.setAttribute("class", "panel");
@@ -57,24 +63,25 @@ class PopupInfo extends HTMLElement {
         const text = document.createElement("p");
         text.setAttribute("class", "title");
 
-        const cardContent = document.createElement("div");
-        cardContent.setAttribute("class", "imageBlock");
+        // const cardContent = document.createElement("div");
+        // cardContent.setAttribute("class", "imageBlock");
 
-        // 呼叫API
-        let data = await this.getSource();
+        // // 呼叫API
+        // let data = await this.getSource();
 
-        const img = document.createElement("img");
-        img.src = data !== "" ? data.message : "";
+        // const img = document.createElement("img");
+        // img.src = data !== "" ? data.message : "";
+        const content = new CardContent();
 
         // 取得attribute content放入text裡面
         const textContent = this.getAttribute("data-text");
         text.textContent = textContent;
 
         // 組裝元素
-        cardContent.appendChild(img);
+        // cardContent.appendChild(img);
         cardHeader.appendChild(text);
         card.appendChild(cardHeader);
-        card.appendChild(cardContent);
+        card.appendChild(await content.createContent());
         card.appendChild(closeBtn);
 
         return card;
@@ -89,6 +96,11 @@ class PopupInfo extends HTMLElement {
 
         // target.style.display = "none";
         target.hide();
+
+        // 測試：是否會影響到外層的Javascript？
+        setTimeout(function () {
+            window.close();
+        }, 2000);
     }
 
     async getSource() {
