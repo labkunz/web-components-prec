@@ -14,8 +14,11 @@ class PopupInfo extends HTMLElement {
         const shadow = this.attachShadow({ mode: "open" });  //js可以造訪
         //設定無法造訪: closed
 
-        console.log(this);
-        console.log(this.test);
+        // console.log(this);
+        // console.log(this.test);
+        // console.log(this.obj);
+
+
 
         const linkEle = this.createLink();
         const card = await this.createPopup();
@@ -71,7 +74,17 @@ class PopupInfo extends HTMLElement {
 
         // const img = document.createElement("img");
         // img.src = data !== "" ? data.message : "";
-        const content = new CardContent();
+
+        let obj = {
+            index: 431,
+            name: "test",
+            func: () => {
+                console.log(this)
+                console.log(`name: ${this.name}`)
+            }
+        }
+
+        const content = new CardContent(obj);
 
         // 取得attribute content放入text裡面
         const textContent = this.getAttribute("data-text");

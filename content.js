@@ -1,7 +1,8 @@
 class CardContent {  //extends HTMLElement
-    constructor () {
+    constructor (obj) {
         // super();
         // this.entry = entry;
+        this.obj = obj;
     }
 
     // async connectedCallback () {
@@ -17,6 +18,9 @@ class CardContent {  //extends HTMLElement
     async createContent () {
         const cardContent = document.createElement("div");
         cardContent.setAttribute("class", "imageBlock");
+
+        console.log(this.obj);
+        this.obj.func();
 
         // 呼叫API
         let data = await this.getSource();
